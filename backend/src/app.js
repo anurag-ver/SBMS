@@ -1,7 +1,11 @@
+const dns = require("dns");
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 const express = require('express');
 const notFoundError = require('./middleware/404Handling');
 const ApiError = require('./utils/ApiError');
 const app = express()
+app.use(express.json())
 
 app.use("/api/v1",require("./router"))
 
@@ -15,5 +19,6 @@ app.use("",(req,res,next)=>{
 })
 
 app.use(notFoundError)
+
 
 module.exports = app
