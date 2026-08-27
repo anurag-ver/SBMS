@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose")
 const { UserModel } = require("../models/User.model")
 const ApiError = require("../utils/ApiError")
 const bcryptjs = require("bcryptjs")
+const JWTService = require("../utils/JwtService")
 
 
 class AuthService{
@@ -15,9 +16,11 @@ class AuthService{
         if(!isMatch){
             throw new ApiError(400,"Invalid Credential")
         }
+
+        const token = JWTService.generateToken(check_exist._id)
         return{
             msg:"Login Success",
-            "token":"123"
+            "token":token
         }
     }
 
@@ -35,6 +38,14 @@ class AuthService{
                     msg:"Register Success",
                     "token":"123"
             }
+    }
+
+    static async profileUser(userId){
+        const user = await UserModel.findById(userId).select("name email acc_type createdAt -_id")
+        if(!user){
+            throw new ApiError(401,"Profile Not Found")
+        }
+        return user
     }
 }
 

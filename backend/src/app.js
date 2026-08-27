@@ -5,7 +5,9 @@ const express = require('express');
 const notFoundError = require('./middleware/404Handling');
 const ApiError = require('./utils/ApiError');
 const app = express()
+const morgan = require("morgan")
 app.use(express.json())
+app.use(morgan("dev"))
 
 app.use("/api/v1",require("./router"))
 
