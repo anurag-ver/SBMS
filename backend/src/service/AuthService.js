@@ -31,13 +31,15 @@ class AuthService{
         if(check_email){
             throw new ApiError(400,"Email Already Exists")
         }
-            const user = await UserModel.create({
-                name,email,password,acc_type
-                })
-                return {
-                    msg:"Register Success",
-                    "token":"123"
-            }
+        
+        const user = await UserModel.create({
+            name,email,password,acc_type
+        })
+        const token = JWTService.generateToken(user._id);
+        return {
+            msg:"Register Success",
+            token
+        }
     }
 
     static async profileUser(userId){
