@@ -1,36 +1,43 @@
+import { useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import DashboardSidebar from "../components/DashboardSidebar";
 import { useMainContext } from "../context/MainContext";
 
 export default function MainLayout() {
-  const { user, logoutHandler } = useMainContext();
+  const { user } = useMainContext();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f8fc] text-slate-900">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
-          <span className="text-xl font-extrabold tracking-[0.14em] text-[#1e2678]">SBMS</span>
+    <div className="flex min-h-screen bg-[#f7f8fc] text-slate-900">
+      {isSidebarOpen && (
+        <button
+          type="button"
+          aria-label="Close sidebar"
+          className="fixed inset-0 z-30 bg-slate-950/40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
 
-          <div className="flex items-center gap-4">
-            <div className="hidden text-right sm:block">
-              <p className="text-sm font-semibold text-slate-800">{user.name}</p>
-              <p className="text-xs text-slate-500">{user.email}</p>
-            </div>
-            <button
-              type="button"
-              onClick={logoutHandler}
-              className="rounded-lg border border-[#1e2678] px-4 py-2 text-sm font-semibold text-[#1e2678] transition hover:bg-[#1e2678] hover:text-white"
-            >
-              Log out
-            </button>
-          </div>
-        </div>
-      </header>
+      <DashboardSidebar
+        isOpen={isSidebarOpen}
+        closeSidebar={() => setIsSidebarOpen(false)}
+      />
 
-      <main className="mx-auto w-full max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
+      <main className="min-w-0 flex-1 p-5 sm:p-8 lg:p-10">
+        <button
+          type="button"
+          aria-label="Open sidebar"
+          className="mb-8 rounded-xl bg-[#1e2678] p-3 text-white shadow-lg lg:hidden"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <span className="block h-0.5 w-5 bg-white" />
+          <span className="mt-1 block h-0.5 w-5 bg-white" />
+          <span className="mt-1 block h-0.5 w-5 bg-white" />
+        </button>
         <Outlet />
       </main>
     </div>
