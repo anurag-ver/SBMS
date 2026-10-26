@@ -7,6 +7,12 @@ import MainLayout from "./layout/MainLayout";
 import Login from "./app/auth/Login/page";
 import Register from "./app/auth/Register/page";
 
+import HomePage from "./app/(root)/home/page";
+import AccountPage from "./app/(root)/account/page";
+import FixDepositPage from "./app/(root)/fix-deposit/page";
+import TransactionsPage from "./app/(root)/transactions/page";
+import AtmCardsPage from "./app/(root)/atm-cards/page";
+
 export default function App() {
   return (
     <div className="min-h-screen w-full">
@@ -14,16 +20,13 @@ export default function App() {
 
       <Routes>
         <Route element={<MainLayout />}>
-          <Route
-            path="/"
-            element={
-              <section className="rounded-3xl bg-white p-7 shadow-sm sm:p-10">
-                <p className="text-sm font-bold tracking-[0.16em] text-[#1e2678]">DASHBOARD</p>
-                <h1 className="mt-3 text-3xl font-bold text-slate-900">Welcome to SBMS</h1>
-                <p className="mt-3 text-slate-600">Your account overview will appear here as you build banking features.</p>
-              </section>
-            }
-          />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/amount" element={<AccountPage />} />
+          <Route path="/fix-deposit" element={<FixDepositPage />} />
+          <Route path="/fd-amount" element={<FixDepositPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/atm-cards" element={<AtmCardsPage />} />
         </Route>
 
         <Route path="/login" element={<><Navbar /><Login /></>} />

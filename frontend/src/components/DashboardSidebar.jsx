@@ -1,6 +1,20 @@
 import { NavLink } from "react-router-dom";
-import { MdDashboard } from "react-icons/md";
+import {
+  MdHome,
+  MdAccountBalance,
+  MdSavings,
+  MdReceiptLong,
+  MdCreditCard,
+} from "react-icons/md";
 import { useMainContext } from "../context/MainContext";
+
+const navItems = [
+  { label: "Home", to: "/", icon: MdHome },
+  { label: "Account", to: "/account", icon: MdAccountBalance },
+  { label: "Fix Deposit", to: "/fix-deposit", icon: MdSavings },
+  { label: "Transactions", to: "/transactions", icon: MdReceiptLong },
+  { label: "ATM Cards", to: "/atm-cards", icon: MdCreditCard },
+];
 
 export default function DashboardSidebar({ isOpen, closeSidebar }) {
   const { user, logoutHandler } = useMainContext();
@@ -21,24 +35,32 @@ export default function DashboardSidebar({ isOpen, closeSidebar }) {
         <p className="mt-2 text-sm text-indigo-200">Smart Banking Management</p>
       </div>
 
-      <nav className="mt-8 flex-1 space-y-2" aria-label="Dashboard navigation">
-        <NavLink
-          to="/"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition ${
-              isActive ? "bg-white text-[#1e2678] shadow-lg" : "text-indigo-100 hover:bg-white/10 hover:text-white"
-            }`
-          }
-        >
-          <MdDashboard className="text-xl" />
-          Dashboard
-        </NavLink>
+      <nav className="mt-6 flex-1 space-y-2 overflow-y-auto" aria-label="Dashboard navigation">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <NavLink
+              key={item.label}
+              to={item.to}
+              onClick={closeSidebar}
+              className={({ isActive }) =>
+                `flex items-center gap-3.5 rounded-xl px-4 py-3 text-sm font-semibold transition ${
+                  isActive
+                    ? "bg-white text-[#1e2678] shadow-lg"
+                    : "text-indigo-100 hover:bg-white/10 hover:text-white"
+                }`
+              }
+            >
+              <Icon className="text-xl flex-shrink-0" />
+              <span>{item.label}</span>
+            </NavLink>
+          );
+        })}
       </nav>
 
       <div className="border-t border-white/15 pt-5">
-        <p className="truncate text-sm font-semibold">{user?.name}</p>
-        <p className="mt-1 truncate text-xs text-indigo-200">{user?.email}</p>
+        <p className="truncate text-sm font-semibold">{user?.name ? user.name.toUpperCase() : "USER"}</p>
+        <p className="mt-1 truncate text-xs text-indigo-200">{user?.email || ""}</p>
 
         <button
           type="button"
