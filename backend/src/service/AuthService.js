@@ -5,6 +5,7 @@ const JWTService = require("../utils/JwtService");
 const { AccountModel } = require("../models/Account.model");
 const { TransactionModel } = require("../models/Transaction.model");
 const { FixDepositModel } = require("../models/FixDeposit.model");
+const { AtmCardModel } = require("../models/AtmCard.model");
 
 const generateAccountNumber = () => {
   return Math.floor(1000000000 + Math.random() * 9000000000);
@@ -103,6 +104,10 @@ class AuthService {
     const activeFDs = await FixDepositModel.find({ user: userId, isClaimed: false });
     const totalFdAmount = activeFDs.reduce((sum, item) => sum + (item.amount || 0), 0);
 
+    const userCards = await AtmCardModel.find({ user: userId }).select(
+      "card_number card_type card_network is_blocked expiry_month expiry_year"
+    );
+
     return {
       ...user.toObject(),
       account_no: accounts,
@@ -110,7 +115,7 @@ class AuthService {
       total_amount: totalAmount,
       fd_amount: totalFdAmount,
       fdCount: activeFDs.length,
-      atms: [],
+      atms: userCards,
     };
   }
 }

@@ -36,7 +36,10 @@ schema.pre("save" ,async function(next){
     }
 })
 
-const model = mongoose.model("user",schema)
+const model = mongoose.models.user || mongoose.model("user", schema);
+if (!mongoose.models.User) {
+    mongoose.model("User", schema);
+}
 
 
 exports.UserModel = model

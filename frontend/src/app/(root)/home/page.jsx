@@ -184,10 +184,12 @@ export default function HomePage() {
 
             <div className="mt-5">
               <p className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                {user?.atms?.length || 1} Card
+                {user?.atms?.length ? `${user.atms.length} ${user.atms.length === 1 ? "Card" : "Cards"}` : "1 Card"}
               </p>
               <p className="mt-2 text-xs font-medium text-slate-500">
-                Virtual Visa Debit Card •••• 4829
+                {user?.atms?.[0]
+                  ? `${user.atms[0].card_type ? user.atms[0].card_type.toUpperCase() : "Visa"} ${user.atms[0].card_network || "Platinum"} Debit Card •••• ${user.atms[0].card_number ? user.atms[0].card_number.slice(-4) : "4829"}`
+                  : "Virtual Visa Platinum Debit Card •••• 4829"}
               </p>
             </div>
           </div>

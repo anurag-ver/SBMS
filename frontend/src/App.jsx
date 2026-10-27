@@ -12,6 +12,7 @@ import AccountPage from "./app/(root)/account/page";
 import FixDepositPage from "./app/(root)/fix-deposit/page";
 import TransactionsPage from "./app/(root)/transactions/page";
 import AtmCardsPage from "./app/(root)/atm-cards/page";
+import ErrorPage from "./app/ErrorPage";
 
 export default function App() {
   return (
@@ -27,10 +28,17 @@ export default function App() {
           <Route path="/fd-amount" element={<FixDepositPage />} />
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route path="/atm-cards" element={<AtmCardsPage />} />
+          <Route path="/atm" element={<AtmCardsPage />} />
+          <Route path="/cards" element={<AtmCardsPage />} />
         </Route>
 
         <Route path="/login" element={<><Navbar /><Login /></>} />
         <Route path="/register" element={<><Navbar /><Register /></>} />
+
+        {/* Error / 404 routes */}
+        <Route path="/error" element={<ErrorPage />} />
+        <Route path="/404" element={<ErrorPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
   );

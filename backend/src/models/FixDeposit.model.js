@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+require("./Account.model");
+require("./User.model");
 
 const FixDepositSchema = new mongoose.Schema(
   {
@@ -52,6 +54,13 @@ const FixDepositSchema = new mongoose.Schema(
   }
 );
 
-const FixDepositModel = mongoose.model("fixdeposit", FixDepositSchema);
+const FixDepositModel =
+  mongoose.models.fixdeposit ||
+  mongoose.models.FixDeposit ||
+  mongoose.model("fixdeposit", FixDepositSchema);
+
+if (!mongoose.models.FixDeposit) {
+  mongoose.model("FixDeposit", FixDepositSchema);
+}
 
 module.exports = { FixDepositModel };

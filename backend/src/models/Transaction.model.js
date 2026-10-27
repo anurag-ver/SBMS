@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+require("./Account.model");
+require("./User.model");
 
 const TransactionSchema = new mongoose.Schema(
   {
@@ -47,6 +49,13 @@ const TransactionSchema = new mongoose.Schema(
   }
 );
 
-const TransactionModel = mongoose.model("transaction", TransactionSchema);
+const TransactionModel =
+  mongoose.models.transaction ||
+  mongoose.models.Transaction ||
+  mongoose.model("transaction", TransactionSchema);
+
+if (!mongoose.models.Transaction) {
+  mongoose.model("Transaction", TransactionSchema);
+}
 
 module.exports = { TransactionModel };

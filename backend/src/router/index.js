@@ -3,6 +3,7 @@ const router = express.Router();
 const AuthRoute = require("./auth");
 const AmountRoute = require("./amount");
 const FixDepositRoute = require("./fix-deposit");
+const AtmCardRoute = require("./atm-card");
 
 const routes = [
   {
@@ -20,6 +21,14 @@ const routes = [
   {
     path: "/fd",
     route: FixDepositRoute,
+  },
+  {
+    path: "/atm-card",
+    route: AtmCardRoute,
+  },
+  {
+    path: "/atm",
+    route: AtmCardRoute,
   },
 ];
 

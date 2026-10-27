@@ -27,6 +27,9 @@ const AccountSchema = new mongoose.Schema(
   }
 );
 
-const AccountModel = mongoose.model("account", AccountSchema);
+const AccountModel = mongoose.models.account || mongoose.model("account", AccountSchema);
+if (!mongoose.models.Account) {
+  mongoose.model("Account", AccountSchema);
+}
 
 module.exports = { AccountModel };
